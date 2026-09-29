@@ -3,10 +3,22 @@ const Io = std.Io;
 
 const ziging = @import("ziging");
 
+fn sumSomething(a: i32, b: i32) i32 {
+    return a + b;
+}
+
 pub fn main(init: std.process.Init) !void {
     // Prints to stderr, unbuffered, ignoring potential errors.
+    std.debug.print("Hello {s}\n", .{"world!"});
+
+    const result = sumSomething(3, 4);
+    std.log.info("The result of sumSomething is {d}", .{result});
     std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
 
+    const array = [_]u8{ 'h', 'e', 'l', 'l', 'o' };
+    std.log.debug("The array is: {s}", .{array});
+    const ages = [_]i32{ 8, 13, 19, 22 };
+    std.log.info("ryan had the following ages: {any}", .{ages});
     // This is appropriate for anything that lives as long as the process.
     const arena: std.mem.Allocator = init.arena.allocator();
 
@@ -68,4 +80,12 @@ fn testOne(context: void, smith: *std.testing.Smith) !void {
             );
         },
     };
+}
+
+test "if statement expression" {
+    const a = true;
+    var x: u16 = 0;
+    x += if (a) 1 else 2;
+    std.debug.print("The value of x is: {d}\n", .{x});
+    try std.testing.expect(x == 1);
 }
